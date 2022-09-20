@@ -1,9 +1,12 @@
 package com.nov.checkyourconsumablesapi.models;
 
+import com.nov.checkyourconsumablesapi.models.enums.Roles;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "user_info")
 public class UserInfo {
 
     @Id
@@ -57,8 +60,8 @@ public class UserInfo {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(Roles role) {
+        this.role = role.toString();
     }
 
     @Override
