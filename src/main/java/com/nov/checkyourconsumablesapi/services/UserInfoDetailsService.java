@@ -30,4 +30,9 @@ public class UserInfoDetailsService implements UserDetailsService {
         }
         return new UserInfoDetails(userInfo.get());
     }
+
+    public UserInfo loadUserById(int id) {
+        Optional<UserInfo> userInfo = usersInfoRepository.findById(id);
+        return userInfo.orElse(null);
+    }
 }

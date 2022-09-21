@@ -14,9 +14,6 @@ public class Consumables {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "person_id")
-    private int personId;
-
     @Column(name = "name")
     @NotEmpty(message = "Field shouldn't be empty!")
     @Size(max = 100, message = "Name shouldn't be greater than 100 chars!")
@@ -51,14 +48,6 @@ public class Consumables {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
     }
 
     public String getName() {
@@ -97,7 +86,6 @@ public class Consumables {
     public String toString() {
         return "Consumables{" +
                 "id=" + id +
-                ", personId=" + personId +
                 ", name='" + name + '\'' +
                 ", mileageNow=" + mileageNow +
                 ", replacementAfter=" + replacementAfter +

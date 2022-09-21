@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ConsumablesRepository extends JpaRepository<Consumables, Integer> {
-    List<Consumables> findAllByPersonId(int id);
+    List<Consumables> findAllByOwnerUser(int id);
 }

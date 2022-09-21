@@ -20,7 +20,7 @@ public class ConsumablesService {
     }
 
     public List<Consumables> findAllByPersonId(int id) {
-        return consumablesRepository.findAllByPersonId(id);
+        return consumablesRepository.findAllByOwnerUser(id);
     }
 
     @Transactional
