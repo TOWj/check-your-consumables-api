@@ -4,6 +4,7 @@ import com.nov.checkyourconsumablesapi.models.enums.Roles;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Table(name = "user_info")
@@ -24,6 +25,9 @@ public class UserInfo {
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(mappedBy = "ownerUser")
+    private List<Consumables> consumablesList;
 
     public UserInfo() {
     }
