@@ -24,23 +24,23 @@ public class ApiController {
         this.userInfoDetailsService = userInfoDetailsService;
     }
 
-//    @GetMapping("/user_info/{id}")
-//    public String getTestUserInfo(@PathVariable("id") int id, Model model) {
-//        userInfoDetailsService.loadUserById(id);
-//
-//        model.addAttribute("userInfo", userInfoDetailsService.loadUserById(id));
-////        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-////        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-////        System.out.println(userInfoDetails.getUserInfo());
-//        return "show";
-//    }
-
     @GetMapping("/user_info/{id}")
-    public UserInfo getUserInfo(@PathVariable("id") int id) {
+    public String getTestUserInfo(@PathVariable("id") int id, Model model) {
         userInfoDetailsService.loadUserById(id);
 
-        return userInfoDetailsService.loadUserById(id);
+        model.addAttribute("userInfo", userInfoDetailsService.loadUserById(id));
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+//        System.out.println(userInfoDetails.getUserInfo());
+        return "show";
     }
+
+//    @GetMapping("/user_info/{id}")
+//    public UserInfo getUserInfo(@PathVariable("id") int id) {
+//        userInfoDetailsService.loadUserById(id);
+//
+//        return userInfoDetailsService.loadUserById(id);
+//    }
 
 
 
