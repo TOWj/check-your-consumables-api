@@ -36,6 +36,11 @@ public class UserInfo {
         this.login = login;
     }
 
+    public UserInfo(int id, String login) {
+        this.id = id;
+        this.login = login;
+    }
+
     public int getId() {
         return id;
     }
