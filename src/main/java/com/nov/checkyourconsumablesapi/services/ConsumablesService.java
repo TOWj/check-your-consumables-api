@@ -1,6 +1,7 @@
 package com.nov.checkyourconsumablesapi.services;
 
 import com.nov.checkyourconsumablesapi.models.Consumables;
+import com.nov.checkyourconsumablesapi.models.UserInfo;
 import com.nov.checkyourconsumablesapi.repositories.ConsumablesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,9 @@ public class ConsumablesService {
     }
 
     public List<Consumables> findAllByPersonId(int id) {
-        return consumablesRepository.findAllByOwnerUser(id);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        return consumablesRepository.findConsumablesByOwnerUser(userInfo);
     }
 
     @Transactional
