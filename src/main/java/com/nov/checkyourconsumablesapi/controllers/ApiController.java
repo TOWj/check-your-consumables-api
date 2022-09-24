@@ -24,15 +24,13 @@ public class ApiController {
         this.userInfoDetailsService = userInfoDetailsService;
     }
 
-    @GetMapping("/user_info/{id}")
-    public String getTestUserInfo(@PathVariable("id") int id, Model model) {
-        userInfoDetailsService.loadUserById(id);
+    @GetMapping("/user_info/")
+    public String getUserInfo() {
 
-        model.addAttribute("userInfo", userInfoDetailsService.loadUserById(id));
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-//        System.out.println(userInfoDetails.getUserInfo());
-        return "show";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+
+        return userInfoDetails.getUserInfo().toString();
     }
 
 //    @GetMapping("/user_info/{id}")
@@ -46,6 +44,7 @@ public class ApiController {
 
     @GetMapping("/cons/{id}")
     public String getTestOneConsumable(@PathVariable("id") int id) {
+
         return "test";
     }
 }

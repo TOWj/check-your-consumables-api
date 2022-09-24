@@ -6,7 +6,9 @@
 </head>
 <body>
 Test Page
+<p>
+    <a th:text="${userInfo.getLogin()} + ${userInfo.getRole()}"></a>
+</p>
 
-<a th:text="${userInfo.getLogin()}"></a>
 </body>
 </html>
