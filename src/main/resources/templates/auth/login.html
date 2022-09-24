@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Login Page</title>
+</head>
+<body>
+Test Page
+<br/>
+<form name="formLogin" method="post" action="/process_login">
+    <label for="username">Введите имя пользователя</label>
+    <input type="text" name="username" id="username"/>
+    <br/>
+    <label for="password">Введите пароль</label>
+    <input type="text" name="password" id="password"/>
+    <br/>
+    <input type="submit" value="Login"/>
+
+    <div th:if="${param.error}" style="color: brown">
+        Неправильное имя или пароль!
+    </div>
+</form>
+
+</body>
+</html>

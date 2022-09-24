@@ -4,6 +4,7 @@ import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -20,6 +21,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userInfoDetailsService = userInfoDetailsService;
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        // Здесь собственная конфигурация Spring Security, вход, авторизация, ошибки и т.д.
+        http.csrf().disable()//TODO переделать! Защита отключена!
+                .authorizeRequests()
+                .antMatchers("/auth/login", "/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/process_login")//TODO здесь надо быть повнимательнее, когда перепишем чисто для api
+                // Этот url проставляется в форме Html страницы, и именно на него отправляются данные из формы
+                .defaultSuccessUrl("/api/user_info", true)
+                .failureUrl("/auth/login?error");
+    }
+
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userInfoDetailsService);
     }

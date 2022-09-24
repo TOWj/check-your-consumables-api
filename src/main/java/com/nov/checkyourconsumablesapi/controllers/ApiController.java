@@ -36,15 +36,6 @@ public class ApiController {
         return userInfoDetails.getUserInfo().toString();
     }
 
-//    @GetMapping("/user_info/{id}")
-//    public UserInfo getUserInfo(@PathVariable("id") int id) {
-//        userInfoDetailsService.loadUserById(id);
-//
-//        return userInfoDetailsService.loadUserById(id);
-//    }
-
-
-
     @GetMapping("/cons")
     public String getTestOneConsumable() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
