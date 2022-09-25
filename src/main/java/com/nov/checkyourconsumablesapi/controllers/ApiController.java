@@ -44,4 +44,9 @@ public class ApiController {
 
         return list.toString();
     }
+
+    @GetMapping("/admin/all_users")
+    public String getAllUsersInfoForAdmin() {
+        return userInfoDetailsService.loadAllUsersInfoForAdmin().toString();
+    }
 }
