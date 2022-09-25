@@ -24,9 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Здесь собственная конфигурация Spring Security, вход, авторизация, ошибки и т.д.
-        http.csrf().disable()//TODO переделать! Защита отключена!
+        http.csrf().disable()// В Api обычно не нужна csrf-защита
                 .authorizeRequests()
-                .antMatchers("/auth/login", "/error").permitAll()
+                .antMatchers("/auth/login", "/error", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")

@@ -35,4 +35,8 @@ public class UserInfoDetailsService implements UserDetailsService {
         Optional<UserInfo> userInfo = usersInfoRepository.findById(id);
         return userInfo.orElse(null);
     }
+
+    public Optional<UserInfo> loadUserByUsernameForCreation(String username) {
+        return usersInfoRepository.findByLogin(username);
+    }
 }
