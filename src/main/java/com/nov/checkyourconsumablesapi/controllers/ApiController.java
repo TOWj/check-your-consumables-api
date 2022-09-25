@@ -1,20 +1,18 @@
 package com.nov.checkyourconsumablesapi.controllers;
 
 import com.nov.checkyourconsumablesapi.models.Consumables;
+import com.nov.checkyourconsumablesapi.models.UserInfo;
 import com.nov.checkyourconsumablesapi.security.UserInfoDetails;
 import com.nov.checkyourconsumablesapi.services.ConsumablesService;
 import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController // Теперь будто все методы имеют аннотацию @ResponseBody
 @RequestMapping("/api")
 public class ApiController {
 
@@ -28,25 +26,26 @@ public class ApiController {
         this.consumablesService = consumablesService;
     }
 
+    // Автоматическая конвертация возвращаемых значений c помощью Jackson в JSON
     @GetMapping("/user_info")
-    public String getUserInfo() {
+    public UserInfo getUserInfo() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        return userInfoDetails.getUserInfo().toString();
+        return userInfoDetails.getUserInfo();
     }
 
     @GetMapping("/cons")
-    public String getTestOneConsumable() {
+    public List<Consumables> getListConsumables() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         List<Consumables> list = consumablesService.findAllByPersonId(userInfoDetails.getUserInfo().getId());
 
-        return list.toString();
+        return list;
     }
 
     @GetMapping("/admin/all_users")
-    public String getAllUsersInfoForAdmin() {
-        return userInfoDetailsService.loadAllUsersInfoForAdmin().toString();//TODO
+    public List<UserInfo> getAllUsersInfoForAdmin() {
+        return userInfoDetailsService.loadAllUsersInfoForAdmin();
     }
 }
