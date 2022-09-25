@@ -5,7 +5,11 @@ import com.nov.checkyourconsumablesapi.models.UserInfo;
 import com.nov.checkyourconsumablesapi.security.UserInfoDetails;
 import com.nov.checkyourconsumablesapi.services.ConsumablesService;
 import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
+import com.nov.checkyourconsumablesapi.util.UserInfoErrorResponse;
+import com.nov.checkyourconsumablesapi.util.UserInfoNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +39,12 @@ public class ApiController {
         return userInfoDetails.getUserInfo();
     }
 
+    @GetMapping("/user_info/{id}")
+    public UserInfo getUserInfo(@PathVariable("id") int id) {
+
+        return userInfoDetailsService.loadUserById(id);
+    }
+
     @GetMapping("/cons")
     public List<Consumables> getListConsumables() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,5 +57,14 @@ public class ApiController {
     @GetMapping("/admin/all_users")
     public List<UserInfo> getAllUsersInfoForAdmin() {
         return userInfoDetailsService.loadAllUsersInfoForAdmin();
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<UserInfoErrorResponse> handleException(UserInfoNotFoundException exception) {
+        UserInfoErrorResponse errorResponse = new UserInfoErrorResponse(
+                "User with this id wasn't found",
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // 404
     }
 }
