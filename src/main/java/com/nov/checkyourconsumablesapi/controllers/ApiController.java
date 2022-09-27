@@ -5,11 +5,9 @@ import com.nov.checkyourconsumablesapi.models.UserInfo;
 import com.nov.checkyourconsumablesapi.security.UserInfoDetails;
 import com.nov.checkyourconsumablesapi.services.AdminService;
 import com.nov.checkyourconsumablesapi.services.ConsumablesService;
+import com.nov.checkyourconsumablesapi.services.RegistrationService;
 import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
-import com.nov.checkyourconsumablesapi.util.ConsumablesErrorResponse;
-import com.nov.checkyourconsumablesapi.util.ConsumablesNotSavedException;
-import com.nov.checkyourconsumablesapi.util.UserInfoErrorResponse;
-import com.nov.checkyourconsumablesapi.util.UserInfoNotFoundException;
+import com.nov.checkyourconsumablesapi.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +24,25 @@ import java.util.List;
 @RequestMapping("/api")
 public class ApiController {
 
+    private final UserInfoValidator userInfoValidator;
     private final UserInfoDetailsService userInfoDetailsService;
 
     private final ConsumablesService consumablesService;
 
     private final AdminService adminService;
 
+    private final RegistrationService registrationService;
+
     @Autowired
-    public ApiController(UserInfoDetailsService userInfoDetailsService, ConsumablesService consumablesService, AdminService adminService) {
+    public ApiController(UserInfoValidator userInfoValidator,
+                         UserInfoDetailsService userInfoDetailsService,
+                         ConsumablesService consumablesService,
+                         AdminService adminService, RegistrationService registrationService) {
+        this.userInfoValidator = userInfoValidator;
         this.userInfoDetailsService = userInfoDetailsService;
         this.consumablesService = consumablesService;
         this.adminService = adminService;
+        this.registrationService = registrationService;
     }
 
     // Автоматическая конвертация возвращаемых значений c помощью Jackson в JSON
@@ -63,7 +69,7 @@ public class ApiController {
         return list;
     }
 
-    @PostMapping("/cons/save_cons")
+    @PostMapping("/cons")
     public ResponseEntity<HttpStatus> saveConsumables(@RequestBody @Valid Consumables consumables,
                                                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -94,6 +100,28 @@ public class ApiController {
         return adminService.loadAllUsersInfoForAdmin();
     }
 
+    @PostMapping("/user_info")
+    public ResponseEntity<HttpStatus> createNewUser(@RequestBody @Valid UserInfo userInfo,
+                                                      BindingResult bindingResult) {
+        userInfoValidator.validate(userInfo, bindingResult);
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+
+            for (FieldError error : errors) {
+                errorMessage
+                        .append(error.getField())
+                        .append(" - ")
+                        .append(error.getDefaultMessage())
+                        .append(";");
+            }
+            throw new UserInfoNotCreatedException(errorMessage.toString());
+        }
+        registrationService.register(userInfo);
+
+        return ResponseEntity.ok(HttpStatus.OK); // 200
+    }
+
     @ExceptionHandler
     private ResponseEntity<UserInfoErrorResponse> handleException(UserInfoNotFoundException exception) {
         UserInfoErrorResponse errorResponse = new UserInfoErrorResponse(
@@ -106,6 +134,15 @@ public class ApiController {
     @ExceptionHandler
     private ResponseEntity<ConsumablesErrorResponse> handleException(ConsumablesNotSavedException exception) {
         ConsumablesErrorResponse errorResponse = new ConsumablesErrorResponse(
+                exception.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<UserInfoErrorResponse> handleException(UserInfoNotCreatedException exception) {
+        UserInfoErrorResponse errorResponse = new UserInfoErrorResponse(
                 exception.getMessage(),
                 System.currentTimeMillis()
         );
