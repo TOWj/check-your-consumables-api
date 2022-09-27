@@ -29,19 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Здесь собственная конфигурация Spring Security, вход, авторизация, ошибки и т.д.
         http.csrf().disable()// В Api обычно не нужна csrf-защита
                 .authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/auth/login", "/error", "/auth/registration").permitAll()
-                .anyRequest().hasAnyRole("USER", "ADMIN")
-                .and()
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")//TODO здесь надо быть повнимательнее, когда перепишем чисто для api
+//              .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/api/registration").permitAll()
+                .anyRequest().hasAnyRole("USER", "ADMIN");
+//                .and()
+//                .formLogin().loginPage("/auth/login")
+//                .loginProcessingUrl("/process_login")
                 // Этот url проставляется в форме Html страницы, и именно на него отправляются данные из формы
-                .defaultSuccessUrl("/api/user_info", true)
-                .failureUrl("/auth/login?error")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/auth/login");
+//                .defaultSuccessUrl("/api/user_info", true)
+//                .failureUrl("/auth/login?error")
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/auth/login");
     }
 
     @Override
