@@ -101,7 +101,7 @@ public class ApiController {
         return adminService.loadAllUsersInfoForAdmin();
     }
 
-    @PostMapping("/user_info")
+    @PostMapping("/registration")
     public ResponseEntity<HttpStatus> createNewUser(@RequestBody @Valid UserInfo userInfo,
                                                       BindingResult bindingResult) {
         userInfoValidator.validate(userInfo, bindingResult);
