@@ -20,12 +20,10 @@ public class Consumables {
     private String name;
 
     @Column(name = "mileage_now")
-    @NotEmpty(message = "Field shouldn't be empty!")
     @Min(value = 1, message = "Value should be greater than 0!")
     private int mileageNow;
 
     @Column(name = "replacement_after")
-    @NotEmpty(message = "Field shouldn't be empty!")
     @Min(value = 1, message = "Value should be greater than 0!")
     private int replacementAfter;
 

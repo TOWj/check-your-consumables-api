@@ -8,6 +8,7 @@ import com.nov.checkyourconsumablesapi.services.ConsumablesService;
 import com.nov.checkyourconsumablesapi.services.RegistrationService;
 import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
 import com.nov.checkyourconsumablesapi.util.*;
+import com.nov.checkyourconsumablesapi.util.validators.UserInfoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,7 +95,7 @@ public class ApiController {
         return ResponseEntity.ok(HttpStatus.OK); // 200
     }
 
-    @GetMapping("/admin/all_users")
+    @GetMapping("/admin/users")
     public List<UserInfo> getAllUsersInfoForAdmin() {
         // Метод будет работать только для роли Админ
         return adminService.loadAllUsersInfoForAdmin();

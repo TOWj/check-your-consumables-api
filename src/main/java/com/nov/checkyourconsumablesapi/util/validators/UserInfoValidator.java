@@ -1,4 +1,4 @@
-package com.nov.checkyourconsumablesapi.util;
+package com.nov.checkyourconsumablesapi.util.validators;
 
 
 import com.nov.checkyourconsumablesapi.models.UserInfo;
