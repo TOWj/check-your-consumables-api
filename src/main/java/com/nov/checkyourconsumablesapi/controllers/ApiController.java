@@ -55,12 +55,6 @@ public class ApiController {
         return userInfoDetails.getUserInfo();
     }
 
-    // Только для админов
-    @GetMapping("/user_info/{id}")
-    public UserInfo getUserInfo(@PathVariable("id") int id) {
-
-        return adminService.loadUserById(id);
-    }
 
     @GetMapping("/cons")
     public List<Consumables> getListConsumables() {
@@ -96,7 +90,13 @@ public class ApiController {
         return ResponseEntity.ok(HttpStatus.OK); // 200
     }
 
-    @GetMapping("/admin/users")
+    // Только для админов
+    @GetMapping("/user_info/{id}")
+    public UserInfo getUserInfo(@PathVariable("id") int id) {
+        // Метод будет работать только для роли Админ
+        return adminService.loadUserById(id);
+    }
+    @GetMapping("/users")
     public List<UserInfo> getAllUsersInfoForAdmin() {
         // Метод будет работать только для роли Админ
         return adminService.loadAllUsersInfoForAdmin();
