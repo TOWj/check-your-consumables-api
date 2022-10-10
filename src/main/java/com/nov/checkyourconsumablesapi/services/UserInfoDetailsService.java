@@ -32,10 +32,10 @@ public class UserInfoDetailsService implements UserDetailsService {
         return new UserInfoDetails(userInfo.get());
     }
 
-    public UserInfo loadUserById(int id) {
-        Optional<UserInfo> userInfo = usersInfoRepository.findById(id);
-        return userInfo.orElseThrow(UserInfoNotFoundException::new);
-    }
+//    public UserInfo loadUserById(int id) {
+//        Optional<UserInfo> userInfo = usersInfoRepository.findById(id);
+//        return userInfo.orElseThrow(UserInfoNotFoundException::new);
+//    }
 
     public Optional<UserInfo> loadUserByUsernameForCreation(String username) {
         return usersInfoRepository.findByLogin(username);

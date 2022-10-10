@@ -55,10 +55,11 @@ public class ApiController {
         return userInfoDetails.getUserInfo();
     }
 
+    // Только для админов
     @GetMapping("/user_info/{id}")
     public UserInfo getUserInfo(@PathVariable("id") int id) {
 
-        return userInfoDetailsService.loadUserById(id);
+        return adminService.loadUserById(id);
     }
 
     @GetMapping("/cons")
