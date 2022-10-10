@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 //Класс для конфига аутентификации и авторизации
@@ -30,8 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/registration", "/error").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
-                .and()
-                .httpBasic();
+                .and().httpBasic()
+                .and().sessionManagement().disable();
     }
 
     @Override
