@@ -4,6 +4,7 @@ import com.nov.checkyourconsumablesapi.models.enums.Roles;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -16,10 +17,12 @@ public class UserInfo {
     private int id;
 
     @NotEmpty(message = "Login shouldn't be empty")
+    @Size(min = 3, max = 100, message = "Login should be between 3 and 100 characters")
     @Column(name = "login")
     private String login;
 
     @NotEmpty(message = "Password shouldn't be empty")
+    @Size(min = 3, max = 100, message = "Password should be between 3 and 100 characters")
     @Column(name = "password")
     private String password;
 

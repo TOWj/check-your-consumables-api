@@ -24,8 +24,18 @@ public class RegistrationService {
     @Transactional
     public void register(UserInfo userInfo) {
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+        // Дополнить UserInfo
+        enrichUserInfo(userInfo);
 
-        userInfo.setRole(Roles.ROLE_USER);
         usersInfoRepository.save(userInfo);
     }
+
+    // Дополнить UserInfo
+    private void enrichUserInfo(UserInfo userInfo) {
+        // Роль по умолчанию - USER
+        userInfo.setRole(Roles.ROLE_USER);
+
+    }
+
+
 }

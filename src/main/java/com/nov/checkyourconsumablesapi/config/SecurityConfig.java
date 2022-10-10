@@ -26,15 +26,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .httpBasic()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/registration", "/error").permitAll()
                 .anyRequest().hasAnyRole("USER", "ADMIN")
-                .and().httpBasic()
-                .and().sessionManagement().disable();
+                .and().sessionManagement().disable()
+                .formLogin().disable();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+
         auth.userDetailsService(userInfoDetailsService)
                 .passwordEncoder(getPasswordEncoder());
     }

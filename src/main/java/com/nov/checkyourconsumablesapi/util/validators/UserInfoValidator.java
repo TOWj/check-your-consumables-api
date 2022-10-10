@@ -1,6 +1,7 @@
 package com.nov.checkyourconsumablesapi.util.validators;
 
 
+import com.nov.checkyourconsumablesapi.dto.UserInfoDTO;
 import com.nov.checkyourconsumablesapi.models.UserInfo;
 import com.nov.checkyourconsumablesapi.services.UserInfoDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,10 @@ public class UserInfoValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserInfo userInfo = (UserInfo) target;
+        UserInfoDTO userInfoDTO = (UserInfoDTO) target;
 
         Optional<UserInfo> userInfoForCreation =
-                userInfoDetailsService.loadUserByUsernameForCreation(userInfo.getLogin());
+                userInfoDetailsService.loadUserByUsernameForCreation(userInfoDTO.getLogin());
 
         if (userInfoForCreation.isPresent()) {
             errors.rejectValue("login", "", "User with this login is already exist");

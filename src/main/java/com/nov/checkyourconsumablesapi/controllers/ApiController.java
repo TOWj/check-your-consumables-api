@@ -1,7 +1,9 @@
 package com.nov.checkyourconsumablesapi.controllers;
 
+import com.nov.checkyourconsumablesapi.dto.UserInfoDTO;
 import com.nov.checkyourconsumablesapi.models.Consumables;
 import com.nov.checkyourconsumablesapi.models.UserInfo;
+import com.nov.checkyourconsumablesapi.models.enums.Roles;
 import com.nov.checkyourconsumablesapi.security.UserInfoDetails;
 import com.nov.checkyourconsumablesapi.services.AdminService;
 import com.nov.checkyourconsumablesapi.services.ConsumablesService;
@@ -103,9 +105,9 @@ public class ApiController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<HttpStatus> createNewUser(@RequestBody @Valid UserInfo userInfo,
+    public ResponseEntity<HttpStatus> createNewUser(@RequestBody @Valid UserInfoDTO userInfoDTO,
                                                       BindingResult bindingResult) {
-        userInfoValidator.validate(userInfo, bindingResult);
+        userInfoValidator.validate(userInfoDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
@@ -119,10 +121,11 @@ public class ApiController {
             }
             throw new UserInfoNotCreatedException(errorMessage.toString());
         }
-        registrationService.register(userInfo);
+        registrationService.register(convertToUserInfo(userInfoDTO));
 
         return ResponseEntity.ok(HttpStatus.OK); // 200
     }
+
 
     @ExceptionHandler
     private ResponseEntity<UserInfoErrorResponse> handleException(UserInfoNotFoundException exception) {
@@ -150,4 +153,14 @@ public class ApiController {
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+
+    private UserInfo convertToUserInfo(UserInfoDTO userInfoDTO) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setLogin(userInfoDTO.getLogin());
+        userInfo.setPassword(userInfoDTO.getPassword());
+
+        return userInfo;
+    }
+
 }

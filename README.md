@@ -7,6 +7,9 @@
 ##### For user role:
 * */api* - basic path
 * */api/registration* - POST - add new user
+  #### Important! - registration for new users works:
+  * without any Basic Auth
+  * or with login - "test", password - "test"
 * */api/user_info* - GET - get information about authorized user
 * */api/cons* - GET - return list of consumables of authorized user
 * */api/cons* - POST - add one consumable for user. Accepts JSON of the following format
