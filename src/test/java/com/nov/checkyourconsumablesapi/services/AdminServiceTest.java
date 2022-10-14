@@ -26,20 +26,22 @@ class AdminServiceTest {
     @Mock
     UsersInfoRepository usersInfoRepository;
 
+    UserInfo userInfo;
+
 
     @BeforeEach
     void setUp() {
-
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void testLoadUserById() {
-        UserInfo userInfo = new UserInfo();
+        userInfo = new UserInfo();
         userInfo.setId(1);
         userInfo.setLogin("login");
         userInfo.setPassword("password");
         userInfo.setConsumablesList(setConsumablesForTest());
+    }
+
+    @Test
+    void loadUserById() {
+
         Optional<UserInfo> userInfoOpt = Optional.of(userInfo);
 
         when(usersInfoRepository.findById(1)).thenReturn(userInfoOpt);
@@ -47,12 +49,20 @@ class AdminServiceTest {
 
         UserInfo userInfoFromTestMethod = adminService.loadUserById(1);
         assertNotNull(userInfoFromTestMethod);
-
+        assertEquals("login", userInfoFromTestMethod.getLogin());
 
         Throwable thrown = assertThrows(UserInfoNotFoundException.class, () -> {
             adminService.loadUserById(2);
         });
         assertNotNull(thrown);
+    }
+    @Test
+    void loadAllUsersInfoForAdmin() {
+        when(usersInfoRepository.findAll()).thenReturn(setUserInfoList());
+
+        List<UserInfo> list = adminService.loadAllUsersInfoForAdmin();
+        assertNotNull(list);
+        assertEquals("login", list.get(0).getLogin());
     }
 
     private List<Consumables> setConsumablesForTest() {
@@ -65,4 +75,14 @@ class AdminServiceTest {
         list.add(consumables3);
         return list;
     }
+
+    private List<UserInfo> setUserInfoList() {
+        List<UserInfo> list = new ArrayList<>();
+        list.add(userInfo);
+        list.add(userInfo);
+        list.add(userInfo);
+        list.add(userInfo);
+        return list;
+    }
+
 }
