@@ -44,6 +44,14 @@ public class UserInfo {
         this.login = login;
     }
 
+    public List<Consumables> getConsumablesList() {
+        return consumablesList;
+    }
+
+    public void setConsumablesList(List<Consumables> consumablesList) {
+        this.consumablesList = consumablesList;
+    }
+
     public int getId() {
         return id;
     }
