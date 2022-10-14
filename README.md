@@ -16,6 +16,6 @@
 "mileageNow": 100,
 "replacementAfter": 100
 }*
-##### For admin role:
+##### Only for admin role:
 * */api/users* - GET - return list of users
 * */api/user_info/{id}* - GET - return user by id

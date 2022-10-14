@@ -3,7 +3,6 @@ package com.nov.checkyourconsumablesapi.controllers;
 import com.nov.checkyourconsumablesapi.dto.UserInfoDTO;
 import com.nov.checkyourconsumablesapi.models.Consumables;
 import com.nov.checkyourconsumablesapi.models.UserInfo;
-import com.nov.checkyourconsumablesapi.models.enums.Roles;
 import com.nov.checkyourconsumablesapi.security.UserInfoDetails;
 import com.nov.checkyourconsumablesapi.services.AdminService;
 import com.nov.checkyourconsumablesapi.services.ConsumablesService;
@@ -50,7 +49,7 @@ public class ApiController {
 
     // Автоматическая конвертация возвращаемых значений c помощью Jackson в JSON
     @GetMapping("/user_info")
-    public UserInfo getUserInfo() {
+    public UserInfo getUserInfoById() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
@@ -94,7 +93,7 @@ public class ApiController {
 
     // Только для админов
     @GetMapping("/user_info/{id}")
-    public UserInfo getUserInfo(@PathVariable("id") int id) {
+    public UserInfo getUserInfoById(@PathVariable("id") int id) {
         // Метод будет работать только для роли Админ
         return adminService.loadUserById(id);
     }

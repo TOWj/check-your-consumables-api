@@ -11,37 +11,48 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //Тест проверки работы контроллера
 @RunWith(SpringRunner.class)
 @WebMvcTest(ApiController.class)
 class ApiControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @MockBean
-    private UsersInfoRepository repo;
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockBean
+//    private UsersInfoRepository repo;
+//
+//    @MockBean
+//    private UserInfoDetailsService UserInfoDetailsService;
 
-    @MockBean
-    private UserInfoDetailsService UserInfoDetailsService;
 
-    @Test
-    void getTestUserInfo() throws Exception {
-        when(repo.findById(1)).thenReturn(Optional.of(
-                new UserInfo(1,"tow")));
 
-        mockMvc.perform(get("/api/user_info/1"))
-                .andExpect(status().isUnauthorized());
-//                .andExpect(jsonPath("$.login", equalTo("tom")));
-    }
 
     @Test
-    void getTestOneConsumable() {
+    public void testGetUserInfoById() {
     }
+//    @Test
+//    void getTestOneConsumable() {
+//    }
+//
+//    @Test
+//    public void getListConsumables() {
+//    }
+//
+//    @Test
+//    public void saveConsumables() {
+//    }
+//
+//    @Test
+//    public void testGetUserInfo() {
+//    }
+//
+//    @Test
+//    public void getAllUsersInfoForAdmin() {
+//    }
+//
+//    @Test
+//    public void createNewUser() {
+//    }
 }
